@@ -1,0 +1,171 @@
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server">
+sub Application_OnStart
+ datapath="noread/"  '数据库目录的相对路径
+ file="db1.mdb"  '数据库的文件名(默认：user.mdb 强烈建议改为user.asp) 
+ datafile=datapath&file 
+ Connstr="Provider=Microsoft.Jet.OLEDB.4.0;"&_
+		"Data Source="& Server.MapPath(datafile)  
+ 'connstr="DBQ="+server.mappath(datafile)+";DefaultDir=;DRIVER={Microsoft Access Driver (*.mdb)};"		
+ Application("hg_connstr")=Connstr
+ Application("fy_c_refresh")=4000
+ Set conn=Server.CreateObject("ADODB.CONNECTION")
+ Set rs=Server.CreateObject("ADODB.RecordSet")
+ conn.open Application("hg_connstr")
+ rs.Open ("select * from system"),conn
+ Application("fy_c_chatroomname")=rs("chatroomname")
+ Application("fy_c_user")=rs("user")
+ Application("fy_c_sn")=rs("sn")
+ Application("fy_c_copyright")=rs("copyright")
+ Application("fy_c_visitor")=rs("visitor")
+ Application("fy_c_chatroombgimage")=rs("chatroombgimage")
+ Application("fy_c_homepageurl")=rs("homepageurl")
+ Application("fy_c_opendate")=rs("opendate")
+ Application("fy_c_chatroombgcolor")=rs("chatroombgcolor")
+ Application("fy_c_chatbgcolor")=rs("chatbgcolor")
+ Application("fy_c_chatimage")=rs("chatimage")
+ Application("fy_c_chatcolor")=rs("chatcolor")
+ Application("fy_c_logo")=rs("logo")
+ Application("fy_c_ver")=rs("ver")
+ Application("fy_c_allowhtml")=int(rs("allowhtml"))
+ Application("fy_c_iplocktime")=int(rs("iplocktime"))
+ Application("fy_c_level1to2")=int(rs("level1to2"))
+ Application("fy_c_level2to3")=int(rs("level2to3"))
+ Application("fy_c_level3to4")=int(rs("level3to4"))
+ Application("fy_c_level4to5")=int(rs("level4to5"))
+ Application("fy_c_maxpeople")=int(rs("maxpeople"))
+ Application("fy_c_maxtimeout")=int(rs("maxtimeout"))
+ Application("fy_c_pollbegin")=CDate(rs("pollbegin"))
+ Application("fy_c_pollend")=CDate(rs("pollend"))
+ Application("fy_c_pollvalue")=CDate(rs("pollvalue"))
+ Application("fy_c_disproxy")=rs("disproxy")
+ Application("fy_c_disnewuser")=rs("disnewuser")
+ Application("fy_c_titlecolor")=rs("titlecolor")
+ Application("fy_c_closedoor")=rs("closedoor")
+ Application("fy_c_automanname")=rs("automanname")
+ Application("fy_c_disloginname")=rs("disloginname")
+ Application("fy_c_userinto")=rs("userinto")
+ Application("fy_c_userout")=rs("userout")
+ Application("fy_c_userdown")=rs("userdown")
+ rs.close
+ sql="SELECT dieip FROM iplockdie"
+ rs.open sql,conn,1,1
+ Application("fy_c_dieip")=rs("dieip")
+ rs.close
+ conn.close
+ set rs=nothing
+ set conn=nothing
+ Dim nameindex(0)
+ useronlinename=" "
+ onliners=0
+ Application("fy_c_onlinelist")=nameindex
+ Application("fy_c_useronlinename")=useronlinename
+ Application("fy_c_chatrs")=onliners
+ Dim wbq(0)
+ Application("fy_c_webicq")=wbq
+ webicqname=" "
+ Application("fy_c_webicqname")=webicqname
+ Dim sd(50)
+ for i=1 to 48
+ sd(i)=0
+ next
+ sd(49)=1
+ sd(50)="数组初化成功!"
+ Application("fy_c_sd")=sd
+ s=Hour(time())
+ f=Minute(time())
+ m=Second(time())
+ if len(s)=1 then s="0" & s
+ if len(f)=1 then f="0" & f
+ if len(m)=1 then m="0" & m
+ t=s & ":" & f & ":" & m
+ Application("fy_c_line")=1
+ Application("hg_title")="欢迎光临" & Application("fy_c_chatroomname")
+ Application("fy_c_title")="祝大家聊得开心^_^！<font color=FF00FF style=font-size:9pt>（" & Application("fy_c_automanname") & "，" & t & "）</font>"
+End sub
+</SCRIPT>
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server">
+Sub Session_OnStart
+ Session.Timeout=3
+ Application.Lock
+  Application("fy_c_active")=Application("fy_c_active")+1
+ Application.UnLock
+End Sub
+</SCRIPT>
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server">
+Sub Session_OnEnd
+ Application.Lock
+ Application("fy_c_active")=Application("fy_c_active")-1
+ if Session("fy_u_inthechat")="1" then
+  nickname=Session("fy_u_nickname")
+  useronlinename=Application("fy_c_useronlinename")
+  if InStr(useronlinename," " & nickname & " ")<>0 then
+   onlinelist=Application("fy_c_onlinelist")
+   dim newonlinelist()
+   useronlinename=""
+   onliners=0
+   js=1
+   for i=1 to UBound(onlinelist) step 6
+    if CStr(onlinelist(i+1))<>CStr(nickname) then
+     onliners=onliners+1
+     useronlinename=useronlinename & " " & onlinelist(i+1)
+     Redim Preserve newonlinelist(js),newonlinelist(js+1),newonlinelist(js+2),newonlinelist(js+3),newonlinelist(js+4),newonlinelist(js+5)
+     newonlinelist(js)=onlinelist(i)
+     newonlinelist(js+1)=onlinelist(i+1)
+     newonlinelist(js+2)=onlinelist(i+2)
+     newonlinelist(js+3)=onlinelist(i+3)
+     newonlinelist(js+4)=onlinelist(i+4)
+     newonlinelist(js+5)=onlinelist(i+5)
+     js=js+6
+    end if
+   next
+   useronlinename=useronlinename&" "
+   if onliners=0 then
+    dim listnull(0)
+    Application("fy_c_onlinelist")=listnull
+   else
+    Application("fy_c_onlinelist")=newonlinelist
+   end if
+   Application("fy_c_useronlinename")=useronlinename
+   Application("fy_c_chatrs")=onliners
+   s=Hour(time())
+   f=Minute(time())
+   m=Second(time())
+   if len(s)=1 then s="0" & s
+   if len(f)=1 then f="0" & f
+   if len(m)=1 then m="0" & m
+   t=s & ":" & f & ":" & m
+   sd=Application("fy_c_sd")
+   line=int(Application("fy_c_line"))
+   Application("fy_c_line")=line+1
+
+dowho=0
+act=4
+towhoway=0
+towho="大家"
+addwordcolor="006699"
+sayscolor="006699"
+saystr="<font color=black>【公告】</font><font color=F08000>" & Replace(Application("fy_c_userdown"),"%%","<font color=black>" & nickname & "</font>") & "</font><font class=t>(" & t & ")</font>"
+SayStr="parent.writesay('"&nickname&"','"&dowho&"','"&towho&"','"&saystr&"','"&addwordcolor&"','"&sayscolor&"','"&act&"','"&towhoway&"');parent.m.location.reload();"
+sd=Application("fy_c_sd")
+line=int(Application("fy_c_line"))
+Session("fy_u_line")=line
+Application("fy_c_line")=line+1
+Dim newsd(50)
+j=1
+for i=3 to 50 step 2
+ newsd(j)=sd(i)
+ newsd(j+1)=sd(i+1)
+ j=j+2
+next
+newsd(49)=line+1
+newsd(50)=saystr
+Application("fy_c_sd")=newsd   
+  end if
+ end if
+ Application.UnLock
+End sub
+</SCRIPT>
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server">
+Sub Application_OnEnd
+End sub
+</SCRIPT>
