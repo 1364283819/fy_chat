@@ -1,0 +1,105 @@
+var max=9;var whamsg=new Array(max+1);var base=0;var p=0;var j;for(j=0;j<=max+1;j++){whamsg[j]='';}function addOne(what){if (base<max+1){whamsg[base]=what;base++;}else{for (i=0;i<max;i++)whamsg[i]=whamsg[i+1];whamsg[i]=what;}p=base;}function gop(){if(p>0)p--;document.af.sytemp.value=whamsg[p];document.af.sytemp.focus();}function gon(){if(p<base)p++;document.af.sytemp.value=whamsg[p];document.af.sytemp.focus();}
+var lst=0;
+var la=0;
+function bs(){document.af.towho.style.color=document.af.sayscolor.value;
+document.af.sytemp.style.color=document.af.sayscolor.value;
+document.af.sytemp.focus();}
+function bs2(){document.af.username.style.color=document.af.addwordcolor.value;
+document.af.sytemp.focus();}
+function dj()
+{
+document.af.towho.value="大家";
+document.af.towho.value;
+document.af.sytemp.focus();
+}
+function rc(list)
+{
+if(list!="0")
+{
+document.af.sytemp.value=list;
+document.af.sytemp.focus();
+}
+}
+function runnosay()
+{
+document.af.clock.value=document.af.clock.value-1;
+if(document.af.clock.value==300)
+if(document.af.addvalues.checked)		{
+parent.d.location.href='autosay.asp';
+startnosay();
+}
+else
+{window.open('comeon.asp','','Status=no,scrollbars=no,resizable=no,width=210,height=130');}
+
+if(document.af.clock.value==0)
+{top.location.href='nosaytimeout.asp';}
+if(document.af.clock.value<0){startnosay();changecolor();parent.rn();}setTimeout('runnosay()',1000);}
+function changecolor()
+{
+var sayscolor=Math.round(Math.random()*(document.af.sayscolor.length-1))
+var addwordcolor=Math.round(Math.random()*(document.af.addwordcolor.length-1))
+document.af.sayscolor.value=document.af.sayscolor.options[sayscolor].value;
+document.af.addwordcolor.value=document.af.addwordcolor.options[addwordcolor].value;
+bs(document.af.sayscolor.value);
+bs2(document.af.addwordcolor.value);
+}
+startnosay();
+runnosay();
+changecolor();
+
+function checksays(){
+if(document.af.addvalues.checked)
+{alert("您目前打开了自动泡点功能，不法发言！")
+return false; 
+}
+if(document.af.sytemp.value=="/k"||document.af.sytemp.value=="/K"){window.open("maninfosearch.asp?id="+document.af.towho.value);
+document.af.sytemp.value="";
+return false;
+}
+
+var towho=document.af.towho.value;var maxlingual=20;var pos=0;var lingualnum=0;var i;var lingualarr=new Array(maxlingual);var msg=document.af.sytemp.value;var nowmsg=msg.substr(0,2);var act;
+if((msg.indexOf("你娘")!=-1)||(msg.indexOf("你爸")!=-1)||(msg.indexOf("你爹")!=-1)||(msg.indexOf("你爷")!=-1)||(msg.indexOf("你奶")!=-1)||(msg.indexOf("日你")!=-1)||(msg.indexOf("日死")!=-1)||(msg.indexOf("干你")!=-1)||(msg.indexOf("干死")!=-1)||(msg.indexOf("插你")!=-1)||(msg.indexOf("插死")!=-1)||(msg.indexOf("叉你")!=-1)||(msg.indexOf("叉死")!=-1)||(msg.indexOf("靠你")!=-1)||(msg.indexOf("靠死")!=-1)||(msg.indexOf("作爱")!=-1)||(msg.indexOf("做爱")!=-1)||(msg.indexOf("奶子")!=-1)||(msg.indexOf("阴道")!=-1)||(msg.indexOf("阴茎")!=-1)||(msg.indexOf("鸡巴")!=-1)||(msg.indexOf("鸡吧")!=-1)||(msg.indexOf("鸡八")!=-1)||(msg.indexOf("龟头")!=-1)||(msg.indexOf("包皮")!=-1)||(msg.indexOf("强奸")!=-1)||(msg.indexOf("强暴")!=-1)||(msg.indexOf("性交")!=-1)||(msg.indexOf("射精")!=-1)||(msg.indexOf("阴唇")!=-1)||(msg.indexOf("吃屎")!=-1)||(msg.indexOf("狗娘")!=-1)||(msg.indexOf("婊子")!=-1)||(msg.indexOf("表子")!=-1)||(msg.indexOf("妣")!=-1)||(msg.indexOf("肏")!=-1)||(msg.indexOf("屄")!=-1)||(msg.indexOf("赑")!=-1)||(msg.indexOf("尻")!=-1)||(msg.indexOf("屌")!=-1))
+{
+alert("警告：请文明聊天！！")
+return false; 
+document.af.oldtowho.value=document.af.towho.value;
+document.af.oldtowho.value=document.af.towho.value;
+document.af.sy.value=document.af.sytemp.value;
+document.af.oldsays.value=document.af.sytemp.value;
+document.af.addsign.options[0].selected=true;
+document.af.tu.options[0].selected=true;
+document.af.sytemp.focus();
+document.af.sytemp.value='';
+document.af.titlemsg.value='';
+
+return false; 
+}
+if (nowmsg=="//"){act="sayact.asp";}else{act="say.asp"}
+document.af.action=act;
+{document.af.sy.value='';if(document.af.sytemp.value!=''){if((document.af.oldsays.value==document.af.sytemp.value)&&(document.af.oldtowho.value==document.af.towho.value)){alert('内容不可重复！');
+document.af.sytemp.focus();
+document.af.sytemp.select();return false;}document.af.oldtowho.value=document.af.towho.value;
+document.af.oldtowho.value=document.af.towho.value;
+document.af.sy.value=document.af.sytemp.value;
+document.af.oldsays.value=document.af.sytemp.value;
+document.af.addsign.options[0].selected=true;
+document.af.tu.options[0].selected=true;
+document.af.sytemp.focus();
+document.af.sytemp.value='';
+
+if((document.af.titleline.checked==false)&&(document.af.oldtitleline.value=='1')){document.af.oldtitleline.value='0';
+}
+if((document.af.titleline.checked==true)&&(document.af.oldtitleline.value=='1')){document.af.titleline.checked=false;
+document.af.oldtitleline.value='0';
+}
+if(document.af.titleline.checked==true){document.af.oldtitleline.value='1';
+}
+
+
+ty=new Date();var nh=ty.getHours();var nm=ty.getMinutes();var ns=ty.getSeconds();var ct=(nh*3600)+(nm*60)+ns;if((ct-lst)>2.5){lst=ct;}else{af.sytemp.value=af.oldsays.value;
+af.oldsays.value='';return false;}addOne(document.af.sy.value);
+startnosay();
+document.af.subsay.disabled=1;setTimeout('document.af.subsay.disabled=0',3000);return true;}if ((document.af.addsign.options[document.af.addsign.selectedIndex].value=='0')||(document.af.addsign.options[document.af.addsign.selectedIndex].value=='')){alert('请输入发言或选择动作！');
+document.af.sytemp.focus();
+document.af.sytemp.select();return false;}}
+return;}
